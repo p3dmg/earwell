@@ -1,5 +1,6 @@
 pub mod audit;
 pub mod auth;
+pub mod commands;
 pub mod crypto;
 pub mod db;
 mod error;
@@ -7,11 +8,6 @@ mod state;
 
 pub use error::{AppError, AppResult};
 pub use state::AppState;
-
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -25,7 +21,14 @@ pub fn run() {
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![greet])
+        .manage(AppState::new())
+        .invoke_handler(tauri::generate_handler![
+            commands::app_status,
+            commands::setup,
+            commands::unlock,
+            commands::lock,
+            commands::audit_verify_chain,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

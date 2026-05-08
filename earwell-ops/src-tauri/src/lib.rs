@@ -1,4 +1,7 @@
 mod db;
+mod error;
+
+pub use error::{AppError, AppResult};
 
 #[tauri::command]
 fn greet(name: &str) -> String {

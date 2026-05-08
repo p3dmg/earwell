@@ -1,4 +1,4 @@
-use anyhow::Result;
+use crate::AppResult;
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use refinery::embed_migrations;
@@ -8,7 +8,7 @@ embed_migrations!("migrations");
 
 pub type DbPool = Pool<SqliteConnectionManager>;
 
-pub fn open(db_path: &Path) -> Result<DbPool> {
+pub fn open(db_path: &Path) -> AppResult<DbPool> {
     let manager = SqliteConnectionManager::file(db_path).with_init(|conn| {
         conn.execute_batch(
             "PRAGMA journal_mode=WAL;

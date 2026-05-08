@@ -1,3 +1,5 @@
+pub mod auth;
+
 use std::path::PathBuf;
 use rand::RngCore;
 use rusqlite::params;

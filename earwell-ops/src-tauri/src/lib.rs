@@ -28,6 +28,10 @@ pub fn run() {
             commands::unlock,
             commands::lock,
             commands::audit_verify_chain,
+            commands::auth::login,
+            commands::auth::logout,
+            commands::auth::current_session,
+            commands::auth::create_user,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

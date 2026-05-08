@@ -1,16 +1,11 @@
 [package]
 name = "earwell-ops"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "Earwell Operations Manager"
+authors = ["Earwell Network"]
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [lib]
-# The `_lib` suffix may seem redundant but it is necessary
-# to make the lib name unique and wouldn't conflict with the bin name.
-# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
 name = "earwell_ops_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
@@ -18,45 +13,37 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = [] }
-tauri-plugin-opener = "2"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-tauri-plugin-dialog = "2"
-tauri-plugin-fs = "2"
+tauri        = { version = "2", features = [] }
+serde        = { version = "1", features = ["derive"] }
+serde_json   = "1"
+
+# Tauri plugins (also added by `pnpm tauri add ...`)
+tauri-plugin-dialog  = "2"
+tauri-plugin-fs      = "2"
 tauri-plugin-process = "2"
-tauri-plugin-log = "2"
+tauri-plugin-updater = "2"
+tauri-plugin-log     = "2"
 
 # DB
 rusqlite     = { version = "0.32", features = ["bundled-sqlcipher-vendored-openssl", "chrono"] }
 r2d2         = "0.8"
 r2d2_sqlite  = "0.25"
 refinery     = { version = "0.8", features = ["rusqlite"] }
+hex          = "0.4"
 
-# Auth / crypto
+# Crypto / auth
 argon2  = "0.5"
 rand    = "0.8"
 sha2    = "0.10"
 keyring = "3"
 
-# IDs / time
-uuid    = { version = "1", features = ["v4", "v7", "serde"] }
-chrono  = { version = "0.4", features = ["serde"] }
-
-# Money + parsing
+# IDs / time / money
+uuid         = { version = "1", features = ["v4", "v7", "serde"] }
+chrono       = { version = "0.4", features = ["serde"] }
 rust_decimal = { version = "1", features = ["serde-with-str"] }
-csv          = "1"
-calamine     = "0.26"
-pdf-extract  = "0.7"
-quick-xml    = "0.36"
-encoding_rs  = "0.8"
 
 # Errors / logging
 thiserror          = "1"
 anyhow             = "1"
 tracing            = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-
-[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
-tauri-plugin-updater = "2"
-

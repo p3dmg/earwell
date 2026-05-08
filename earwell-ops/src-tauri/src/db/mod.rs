@@ -1,14 +1,14 @@
 pub mod pool;
 
-use crate::AppResult;
-use pool::DbPool;
-use refinery::embed_migrations;
+use crate::db::pool::DbPool;
+use crate::error::AppResult;
 
-embed_migrations!("migrations");
+mod embedded {
+    refinery::embed_migrations!("./migrations");
+}
 
-/// Run all pending refinery migrations against an already-open pool.
-pub fn migrate(pool: &DbPool) -> AppResult<()> {
+pub fn run_migrations(pool: &DbPool) -> AppResult<()> {
     let mut conn = pool.get()?;
-    migrations::runner().run(&mut *conn)?;
+    embedded::migrations::runner().run(&mut *conn)?;
     Ok(())
 }

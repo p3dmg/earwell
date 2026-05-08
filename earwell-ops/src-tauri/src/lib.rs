@@ -1,7 +1,10 @@
-mod db;
+pub mod auth;
+pub mod db;
 mod error;
+mod state;
 
 pub use error::{AppError, AppResult};
+pub use state::AppState;
 
 #[tauri::command]
 fn greet(name: &str) -> String {

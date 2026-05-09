@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomeTask — Mobile App Mockup</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      padding: 24px 16px;
+      gap: 16px;
+    }
+
+    .meta {
+      color: #94a3b8;
+      font-size: 13px;
+      text-align: center;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .meta strong { color: #e2e8f0; }
+
+    /* Phone shell */
+    .phone {
+      width: 375px;
+      height: 780px;
+      background: #000;
+      border-radius: 52px;
+      padding: 14px;
+      box-shadow:
+        0 0 0 1px #334155,
+        0 0 0 3px #1e293b,
+        0 40px 80px rgba(0,0,0,0.7);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .phone-inner {
+      width: 100%;
+      height: 100%;
+      background: #f8fafc;
+      border-radius: 40px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Notch */
+    .notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 30px;
+      background: #000;
+      border-radius: 0 0 20px 20px;
+      z-index: 100;
+    }
+
+    /* Status bar */
+    .status-bar {
+      height: 44px;
+      background: inherit;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 24px 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f172a;
+      position: relative;
+      z-index: 99;
+    }
+    .status-bar .time { font-size: 15px; font-weight: 700; }
+    .status-icons { display: flex; gap: 6px; align-items: center; }
+    .status-icons span { font-size: 12px; }
+
+    /* Screen system */
+    .screen {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #f1f5f9;
+      overflow-y: auto;
+      display: none;
+      flex-direction: column;
+    }
+    .screen.active { display: flex; }
+    .screen::-webkit-scrollbar { display: none; }
+
+    /* ── SHARED COMPONENTS ── */
+    .top-bar {
+      background: #fff;
+      padding: 44px 20px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .top-bar.colored {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      color: #fff;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      color: #0ea5e9;
+      cursor: pointer;
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    .back-btn.white { color: rgba(255,255,255,0.9); }
+    .back-btn svg { width: 16px; height: 16px; }
+
+    .screen-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .screen-title.white { color: #fff; }
+    .screen-subtitle { font-size: 13px; color: #64748b; margin-top: 2px; }
+    .screen-subtitle.white { color: rgba(255,255,255,0.75); }
+
+    /* Tab bar */
+    .tab-bar {
+      height: 72px;
+      background: #fff;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 8px 12px;
+      position: sticky;
+      bottom: 0;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      flex: 1;
+    }
+    .tab-icon { font-size: 22px; }
+    .tab-label { font-size: 10px; font-weight: 600; color: #94a3b8; }
+    .tab-item.active .tab-label { color: #0ea5e9; }
+    .tab-item.active .tab-icon { filter: none; }
+
+    /* ── SCREEN 1: HOME ── */
+    #screen-home .hero {
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      padding: 44px 20px 28px;
+      color: #fff;
+    }
+    #screen-home .greeting { font-size: 13px; opacity: 0.8; margin-bottom: 2px; }
+    #screen-home .name { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+
+    .search-box {
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+    .search-box span { font-size: 18px; }
+    .search-box input {
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: #475569;
+      flex: 1;
+      background: transparent;
+    }
+
+    .section { padding: 20px 20px 0; }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .section-label { font-size: 16px; font-weight: 700; color: #0f172a; }
+    .see-all { font-size: 13px; color: #0ea5e9; font-weight: 600; cursor: pointer; }
+
+    /* Category pills */
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .cat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    .cat-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: transform 0.15s;
+    }
+    .cat-icon:active { transform: scale(0.94); }
+    .cat-label { font-size: 11px; font-weight: 600; color: #475569; text-align: center; }
+
+    /* Provider cards */
+    .provider-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .provider-card:active { transform: scale(0.98); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+    .provider-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .provider-info { flex: 1; min-width: 0; }
+    .provider-name { font-size: 15px; font-weight: 700; color: #0f172a; }
+    .provider-trade { font-size: 12px; color: #64748b; margin-top: 1px; }
+    .provider-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #f59e0b;
+    }
+    .reviews { font-size: 11px; color: #94a3b8; }
+    .badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+    .badge.vetted { background: #dcfce7; color: #16a34a; }
+    .badge.fast { background: #dbeafe; color: #1d4ed8; }
+    .badge.top { background: #fef3c7; color: #b45309; }
+    .provider-price {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0ea5e9;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .provider-price small { font-size: 10px; font-weight: 400; color: #94a3b8; display: block; }
+
+    /* ── SCREEN 2: BROWSE ── */
+    #screen-browse {
+      background: #f1f5f9;
+    }
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      padding: 14px 20px;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+    .filter-row::-webkit-scrollbar { display: none; }
+    .filter-chip {
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      border: 1.5px solid #e2e8f0;
+      background: #fff;
+      color: #475569;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .filter-chip.active {
+      background: #0ea5e9;
+      border-color: #0ea5e9;
+      color: #fff;
+    }
+
+    .list-wrapper { padding: 0 16px 16px; overflow-y: auto; flex: 1; }
+
+    .provider-card-lg {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      transition: transform 0.15s;
+    }
+    .provider-card-lg:active { transform: scale(0.98); }
+    .card-img {
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      position: relative;
+    }
+    .card-img .avail-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #22c55e;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+    .card-body { padding: 14px; }
+    .card-body .provider-name { font-size: 16px; }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .book-btn-sm {
+      background: #0ea5e9;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .book-btn-sm:active { background: #0284c7; }
+
+    /* ── SCREEN 3: PROFILE ── */
+    #screen-profile { background: #fff; }
+
+    .profile-hero {
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      padding: 44px 20px 28px;
+      text-align: center;
+      color: #fff;
+    }
+    .profile-avatar-lg {
+      width: 80px;
+      height: 80px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      border: 3px solid rgba(255,255,255,0.4);
+    }
+    .profile-name { font-size: 22px; font-weight: 700; }
+    .profile-trade { font-size: 14px; opacity: 0.8; margin: 4px 0 12px; }
+    .profile-stats {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      margin-top: 4px;
+    }
+    .stat { text-align: center; }
+    .stat-val { font-size: 20px; font-weight: 700; }
+    .stat-label { font-size: 11px; opacity: 0.75; }
+
+    .verified-banner {
+      background: #f0fdf4;
+      border-left: 4px solid #22c55e;
+      margin: 16px;
+      padding: 12px 14px;
+      border-radius: 0 12px 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .verified-banner span { font-size: 20px; }
+    .verified-text { font-size: 13px; color: #166534; font-weight: 600; }
+    .verified-sub { font-size: 11px; color: #4ade80; margin-top: 1px; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 4px 16px 16px;
+    }
+    .service-item {
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .service-icon { font-size: 22px; }
+    .service-name { font-size: 13px; font-weight: 700; color: #0f172a; }
+    .service-price { font-size: 12px; color: #0ea5e9; font-weight: 600; }
+
+    .review-item {
+      padding: 14px 16px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .reviewer { font-size: 13px; font-weight: 700; color: #0f172a; }
+    .review-stars { color: #f59e0b; font-size: 12px; }
+    .review-text { font-size: 13px; color: #475569; line-height: 1.5; }
+    .review-date { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+
+    .book-cta {
+      padding: 16px;
+      background: #fff;
+      border-top: 1px solid #f1f5f9;
+      flex-shrink: 0;
+    }
+    .book-btn-lg {
+      width: 100%;
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: opacity 0.15s;
+    }
+    .book-btn-lg:active { opacity: 0.85; }
+
+    /* ── SCREEN 4: BOOKING ── */
+    #screen-booking { background: #f1f5f9; }
+
+    .booking-section {
+      background: #fff;
+      margin: 12px 16px;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .booking-section-header {
+      padding: 14px 16px 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      padding: 12px;
+    }
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: 500;
+      color: #475569;
+    }
+    .cal-day.header { font-size: 11px; font-weight: 700; color: #94a3b8; cursor: default; }
+    .cal-day.today { background: #e0f2fe; color: #0284c7; font-weight: 700; }
+    .cal-day.selected { background: #0ea5e9; color: #fff; font-weight: 700; }
+    .cal-day.disabled { color: #cbd5e1; cursor: default; }
+    .cal-day:not(.header):not(.disabled):not(.selected):hover { background: #f1f5f9; }
+
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 12px;
+    }
+    .time-slot {
+      padding: 10px 6px;
+      border-radius: 12px;
+      border: 1.5px solid #e2e8f0;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .time-slot.selected { background: #0ea5e9; border-color: #0ea5e9; color: #fff; }
+    .time-slot:not(.selected):hover { border-color: #0ea5e9; color: #0ea5e9; }
+
+    .service-selector { padding: 8px 12px 12px; }
+    .service-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-radius: 14px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      border: 1.5px solid #e2e8f0;
+      transition: all 0.15s;
+    }
+    .service-option.selected { border-color: #0ea5e9; background: #f0f9ff; }
+    .service-option-left { display: flex; align-items: center; gap: 10px; }
+    .service-option-icon { font-size: 20px; }
+    .service-option-name { font-size: 14px; font-weight: 600; color: #0f172a; }
+    .service-option-desc { font-size: 12px; color: #94a3b8; }
+    .service-option-price { font-size: 14px; font-weight: 700; color: #0ea5e9; }
+
+    .notes-input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: #475569;
+      resize: none;
+      padding: 12px;
+      font-family: inherit;
+      line-height: 1.5;
+      background: transparent;
+    }
+
+    .confirm-btn {
+      margin: 4px 16px 20px;
+      width: calc(100% - 32px);
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-shrink: 0;
+      transition: opacity 0.15s;
+    }
+    .confirm-btn:active { opacity: 0.85; }
+
+    /* ── SCREEN 5: CONFIRMATION ── */
+    #screen-confirm { background: #fff; justify-content: center; align-items: center; }
+
+    .confirm-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 40px 32px;
+      flex: 1;
+      justify-content: center;
+    }
+    .confirm-check {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 32px rgba(34,197,94,0.35);
+      animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .confirm-title { font-size: 26px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+    .confirm-sub { font-size: 14px; color: #64748b; line-height: 1.6; margin-bottom: 28px; }
+
+    .booking-summary {
+      background: #f8fafc;
+      border-radius: 18px;
+      padding: 16px;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 28px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .summary-row:last-child { border-bottom: none; }
+    .summary-label { font-size: 13px; color: #64748b; }
+    .summary-value { font-size: 13px; font-weight: 700; color: #0f172a; }
+    .summary-value.green { color: #16a34a; }
+
+    .done-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #0ea5e9, #0284c7);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .done-btn:active { opacity: 0.85; }
+
+    /* Breadcrumb nav hint */
+    .nav-hint {
+      color: #475569;
+      font-size: 12px;
+      text-align: center;
+      letter-spacing: 0.04em;
+    }
+    .nav-hint span { color: #0ea5e9; }
+
+    /* Divider */
+    .divider { height: 1px; background: #f1f5f9; margin: 0 16px; }
+
+    .spacer { height: 20px; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <div class="meta">HomeTask — <strong>Homeowner Marketplace App</strong> &nbsp;|&nbsp; Click cards &amp; buttons to navigate</div>
+
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="phone-inner">
+
+      <!-- ════════════════════════════════
+           SCREEN 1: HOME
+      ════════════════════════════════ -->
+      <div class="screen active" id="screen-home">
+        <!-- Hero / Search -->
+        <div id="home-hero" style="background:linear-gradient(135deg,#0ea5e9 0%,#0284c7 100%);padding:44px 20px 24px;color:#fff;flex-shrink:0;">
+          <div style="font-size:13px;opacity:0.8;margin-bottom:2px;">Good morning 👋</div>
+          <div style="font-size:22px;font-weight:700;margin-bottom:16px;">What do you need fixed?</div>
+          <div class="search-box">
+            <span>🔍</span>
+            <input type="text" placeholder="Search services or providers…" readonly />
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="section" style="flex-shrink:0;">
+          <div class="section-header">
+            <span class="section-label">Browse by Category</span>
+            <span class="see-all" onclick="goTo('screen-browse')">See all</span>
+          </div>
+          <div class="categories">
+            <div class="cat-item" onclick="goTo('screen-browse')">
+              <div class="cat-icon" style="background:#dbeafe;">🔧</div>
+              <span class="cat-label">Plumbing</span>
+            </div>
+            <div class="cat-item" onclick="goTo('screen-browse')">
+              <div class="cat-icon" style="background:#fef9c3;">⚡</div>
+              <span class="cat-label">Electrical</span>
+            </div>
+            <div class="cat-item" onclick="goTo('screen-browse')">
+              <div class="cat-icon" style="background:#dcfce7;">🌿</div>
+              <span class="cat-label">Lawn Care</span>
+            </div>
+            <div class="cat-item" onclick="goTo('screen-browse')">
+              <div class="cat-icon" style="background:#fce7f3;">🧹</div>
+              <span class="cat-label">Cleaning</span>
+            </div>
+            <div class="cat-item" onclick="goTo('screen-browse')">
+              <div class="cat-icon" style="background:#ede9fe;">🎨</div>
+              <span class="cat-label">Painting</span>
+            </div>
+            <div class="cat-item" onclick="goTo('screen-browse')">
+              <div class="cat-icon" style="background:#ffedd5;">🏠</div>
+              <span class="cat-label">Roofing</span>
+            </div>
+            <div class="cat-item" onclick="goTo('screen-browse')">
+              <div class="cat-icon" style="background:#cffafe;">❄️</div>
+              <span class="cat-label">HVAC</span>
+            </div>
+            <div class="cat-item" onclick="goTo('screen-browse')">
+              <div class="cat-icon" style="background:#fef3c7;">🔒</div>
+              <span class="cat-label">Security</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured providers -->
+        <div class="section">
+          <div class="section-header">
+            <span class="section-label">Top-Rated Near You</span>
+            <span class="see-all" onclick="goTo('screen-browse')">See all</span>
+          </div>
+
+          <div class="provider-card" onclick="goTo('screen-profile')">
+            <div class="provider-avatar" style="background:#dbeafe;">👨‍🔧</div>
+            <div class="provider-info">
+              <div class="provider-name">Marcus Rivera</div>
+              <div class="provider-trade">Licensed Plumber · 0.8 mi away</div>
+              <div class="provider-meta">
+                <span class="rating">⭐ 4.9</span>
+                <span class="reviews">(312 reviews)</span>
+                <span class="badge vetted">✓ Vetted</span>
+                <span class="badge fast">⚡ Fast</span>
+              </div>
+            </div>
+            <div class="provider-price">$85<small>/hr</small></div>
+          </div>
+
+          <div class="provider-card" onclick="goTo('screen-profile')">
+            <div class="provider-avatar" style="background:#fef9c3;">👩‍🔧</div>
+            <div class="provider-info">
+              <div class="provider-name">Sarah Chen</div>
+              <div class="provider-trade">Master Electrician · 1.2 mi away</div>
+              <div class="provider-meta">
+                <span class="rating">⭐ 4.8</span>
+                <span class="reviews">(189 reviews)</span>
+                <span class="badge vetted">✓ Vetted</span>
+                <span class="badge top">🏆 Top Pro</span>
+              </div>
+            </div>
+            <div class="provider-price">$95<small>/hr</small></div>
+          </div>
+
+          <div class="provider-card" onclick="goTo('screen-profile')">
+            <div class="provider-avatar" style="background:#dcfce7;">🧑‍🔧</div>
+            <div class="provider-info">
+              <div class="provider-name">James &amp; Co.</div>
+              <div class="provider-trade">Lawn &amp; Garden · 0.4 mi away</div>
+              <div class="provider-meta">
+                <span class="rating">⭐ 4.7</span>
+                <span class="reviews">(94 reviews)</span>
+                <span class="badge vetted">✓ Vetted</span>
+              </div>
+            </div>
+            <div class="provider-price">$60<small>/hr</small></div>
+          </div>
+        </div>
+
+        <!-- Tab bar -->
+        <div style="flex:1;"></div>
+        <div class="tab-bar">
+          <div class="tab-item active">
+            <div class="tab-icon">🏠</div>
+            <div class="tab-label" style="color:#0ea5e9;">Home</div>
+          </div>
+          <div class="tab-item" onclick="goTo('screen-browse')">
+            <div class="tab-icon">🔍</div>
+            <div class="tab-label">Browse</div>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon">📋</div>
+            <div class="tab-label">Bookings</div>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon">💬</div>
+            <div class="tab-label">Messages</div>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon">👤</div>
+            <div class="tab-label">Profile</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════
+           SCREEN 2: BROWSE
+      ════════════════════════════════ -->
+      <div class="screen" id="screen-browse">
+        <div class="top-bar" style="background:#fff;padding:44px 20px 10px;">
+          <div class="back-btn" onclick="goTo('screen-home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+            Back
+          </div>
+          <div class="screen-title">Find Providers</div>
+          <div class="screen-subtitle">47 pre-vetted pros near you</div>
+        </div>
+
+        <div class="filter-row">
+          <div class="filter-chip active">All</div>
+          <div class="filter-chip">Plumbing</div>
+          <div class="filter-chip">Electrical</div>
+          <div class="filter-chip">Cleaning</div>
+          <div class="filter-chip">Lawn</div>
+          <div class="filter-chip">HVAC</div>
+          <div class="filter-chip">Available Today</div>
+        </div>
+
+        <div class="list-wrapper">
+          <div class="provider-card-lg" onclick="goTo('screen-profile')">
+            <div class="card-img" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);">
+              👨‍🔧
+              <div class="avail-tag">Available Now</div>
+            </div>
+            <div class="card-body">
+              <div class="provider-name">Marcus Rivera</div>
+              <div class="provider-trade">Licensed Plumber · 0.8 mi</div>
+              <div class="provider-meta" style="margin-top:8px;">
+                <span class="rating">⭐ 4.9</span>
+                <span class="reviews">(312)</span>
+                <span class="badge vetted">✓ Vetted</span>
+                <span class="badge fast">⚡ Same-day</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div style="font-size:16px;font-weight:700;color:#0f172a;">$85<span style="font-size:12px;color:#94a3b8;font-weight:400;">/hr</span></div>
+              <button class="book-btn-sm" onclick="event.stopPropagation();goTo('screen-booking')">Book Now</button>
+            </div>
+          </div>
+
+          <div class="provider-card-lg" onclick="goTo('screen-profile')">
+            <div class="card-img" style="background:linear-gradient(135deg,#fef9c3,#fde68a);">
+              👩‍🔧
+              <div class="avail-tag">Avail. Tomorrow</div>
+            </div>
+            <div class="card-body">
+              <div class="provider-name">Sarah Chen</div>
+              <div class="provider-trade">Master Electrician · 1.2 mi</div>
+              <div class="provider-meta" style="margin-top:8px;">
+                <span class="rating">⭐ 4.8</span>
+                <span class="reviews">(189)</span>
+                <span class="badge vetted">✓ Vetted</span>
+                <span class="badge top">🏆 Top Pro</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div style="font-size:16px;font-weight:700;color:#0f172a;">$95<span style="font-size:12px;color:#94a3b8;font-weight:400;">/hr</span></div>
+              <button class="book-btn-sm" onclick="event.stopPropagation();goTo('screen-booking')">Book Now</button>
+            </div>
+          </div>
+
+          <div class="provider-card-lg" onclick="goTo('screen-profile')">
+            <div class="card-img" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);">
+              🧑‍🔧
+              <div class="avail-tag">Available Now</div>
+            </div>
+            <div class="card-body">
+              <div class="provider-name">James &amp; Co. Landscaping</div>
+              <div class="provider-trade">Lawn &amp; Garden Specialists · 0.4 mi</div>
+              <div class="provider-meta" style="margin-top:8px;">
+                <span class="rating">⭐ 4.7</span>
+                <span class="reviews">(94)</span>
+                <span class="badge vetted">✓ Vetted</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div style="font-size:16px;font-weight:700;color:#0f172a;">$60<span style="font-size:12px;color:#94a3b8;font-weight:400;">/hr</span></div>
+              <button class="book-btn-sm" onclick="event.stopPropagation();goTo('screen-booking')">Book Now</button>
+            </div>
+          </div>
+
+          <div class="provider-card-lg" onclick="goTo('screen-profile')">
+            <div class="card-img" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">
+              👷
+            </div>
+            <div class="card-body">
+              <div class="provider-name">ProPaint Solutions</div>
+              <div class="provider-trade">Interior &amp; Exterior Painting · 2.1 mi</div>
+              <div class="provider-meta" style="margin-top:8px;">
+                <span class="rating">⭐ 4.6</span>
+                <span class="reviews">(57)</span>
+                <span class="badge vetted">✓ Vetted</span>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div style="font-size:16px;font-weight:700;color:#0f172a;">$75<span style="font-size:12px;color:#94a3b8;font-weight:400;">/hr</span></div>
+              <button class="book-btn-sm" onclick="event.stopPropagation();goTo('screen-booking')">Book Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-bar">
+          <div class="tab-item" onclick="goTo('screen-home')">
+            <div class="tab-icon">🏠</div>
+            <div class="tab-label">Home</div>
+          </div>
+          <div class="tab-item active">
+            <div class="tab-icon">🔍</div>
+            <div class="tab-label" style="color:#0ea5e9;">Browse</div>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon">📋</div>
+            <div class="tab-label">Bookings</div>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon">💬</div>
+            <div class="tab-label">Messages</div>
+          </div>
+          <div class="tab-item">
+            <div class="tab-icon">👤</div>
+            <div class="tab-label">Profile</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════
+           SCREEN 3: PROVIDER PROFILE
+      ════════════════════════════════ -->
+      <div class="screen" id="screen-profile">
+        <div class="profile-hero">
+          <div class="back-btn white" onclick="goTo('screen-browse')" style="margin-bottom:14px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+            Browse
+          </div>
+          <div class="profile-avatar-lg">👨‍🔧</div>
+          <div class="profile-name">Marcus Rivera</div>
+          <div class="profile-trade">Licensed Master Plumber · Insured &amp; Bonded</div>
+          <div class="profile-stats">
+            <div class="stat">
+              <div class="stat-val">4.9 ⭐</div>
+              <div class="stat-label">Rating</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">312</div>
+              <div class="stat-label">Reviews</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">6 yrs</div>
+              <div class="stat-label">Experience</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="verified-banner">
+          <span>🛡️</span>
+          <div>
+            <div class="verified-text">Background Checked &amp; Verified</div>
+            <div class="verified-sub" style="color:#4ade80;">License #CA-PLB-20341 · $2M Liability Insurance</div>
+          </div>
+        </div>
+
+        <div style="padding:0 16px 4px;">
+          <div style="font-size:16px;font-weight:700;color:#0f172a;margin-bottom:10px;">Services &amp; Pricing</div>
+        </div>
+        <div class="services-grid">
+          <div class="service-item">
+            <span class="service-icon">🚿</span>
+            <div class="service-name">Leak Repair</div>
+            <div class="service-price">From $75</div>
+          </div>
+          <div class="service-item">
+            <span class="service-icon">🚽</span>
+            <div class="service-name">Toilet Install</div>
+            <div class="service-price">From $120</div>
+          </div>
+          <div class="service-item">
+            <span class="service-icon">🔧</span>
+            <div class="service-name">Pipe Repair</div>
+            <div class="service-price">From $95</div>
+          </div>
+          <div class="service-item">
+            <span class="service-icon">🛁</span>
+            <div class="service-name">Water Heater</div>
+            <div class="service-price">From $250</div>
+          </div>
+        </div>
+
+        <div style="padding:4px 16px 10px;font-size:16px;font-weight:700;color:#0f172a;">Reviews</div>
+
+        <div class="review-item">
+          <div class="review-header">
+            <span class="reviewer">Jennifer M.</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <div class="review-text">"Marcus fixed our burst pipe in under an hour. Showed up exactly on time and explained everything clearly. Will definitely book again!"</div>
+          <div class="review-date">2 days ago</div>
+        </div>
+        <div class="review-item">
+          <div class="review-header">
+            <span class="reviewer">Tom K.</span>
+            <span class="review-stars">★★★★★</span>
+          </div>
+          <div class="review-text">"Installed a new water heater. Competitive pricing, clean work, no surprises on the bill. Highly recommend."</div>
+          <div class="review-date">1 week ago</div>
+        </div>
+        <div class="review-item">
+          <div class="review-header">
+            <span class="reviewer">Priya S.</span>
+            <span class="review-stars">★★★★☆</span>
+          </div>
+          <div class="review-text">"Great work on the bathroom renovation plumbing. Slight delay but communicated proactively. Quality was excellent."</div>
+          <div class="review-date">3 weeks ago</div>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="book-cta">
+          <button class="book-btn-lg" onclick="goTo('screen-booking')">
+            📅 Book Marcus — $85/hr
+          </button>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════
+           SCREEN 4: BOOKING
+      ════════════════════════════════ -->
+      <div class="screen" id="screen-booking" style="background:#f1f5f9;">
+        <div class="top-bar">
+          <div class="back-btn" onclick="goTo('screen-profile')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+            Marcus Rivera
+          </div>
+          <div class="screen-title">Book Appointment</div>
+          <div class="screen-subtitle">Select date, time &amp; service</div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="booking-section">
+          <div class="booking-section-header">📅 Select Date · May 2026</div>
+          <div class="calendar-grid">
+            <div class="cal-day header">Su</div>
+            <div class="cal-day header">Mo</div>
+            <div class="cal-day header">Tu</div>
+            <div class="cal-day header">We</div>
+            <div class="cal-day header">Th</div>
+            <div class="cal-day header">Fr</div>
+            <div class="cal-day header">Sa</div>
+            <div class="cal-day disabled">27</div>
+            <div class="cal-day disabled">28</div>
+            <div class="cal-day disabled">29</div>
+            <div class="cal-day disabled">30</div>
+            <div class="cal-day disabled">1</div>
+            <div class="cal-day disabled">2</div>
+            <div class="cal-day disabled">3</div>
+            <div class="cal-day disabled">4</div>
+            <div class="cal-day disabled">5</div>
+            <div class="cal-day disabled">6</div>
+            <div class="cal-day disabled">7</div>
+            <div class="cal-day disabled">8</div>
+            <div class="cal-day today">9</div>
+            <div class="cal-day" onclick="selectDay(this)">10</div>
+            <div class="cal-day" onclick="selectDay(this)">11</div>
+            <div class="cal-day selected" onclick="selectDay(this)">12</div>
+            <div class="cal-day" onclick="selectDay(this)">13</div>
+            <div class="cal-day" onclick="selectDay(this)">14</div>
+            <div class="cal-day" onclick="selectDay(this)">15</div>
+            <div class="cal-day" onclick="selectDay(this)">16</div>
+            <div class="cal-day" onclick="selectDay(this)">17</div>
+            <div class="cal-day" onclick="selectDay(this)">18</div>
+            <div class="cal-day" onclick="selectDay(this)">19</div>
+            <div class="cal-day" onclick="selectDay(this)">20</div>
+            <div class="cal-day" onclick="selectDay(this)">21</div>
+            <div class="cal-day" onclick="selectDay(this)">22</div>
+            <div class="cal-day" onclick="selectDay(this)">23</div>
+          </div>
+        </div>
+
+        <!-- Time slots -->
+        <div class="booking-section">
+          <div class="booking-section-header">⏰ Select Time</div>
+          <div class="time-slots">
+            <div class="time-slot" onclick="selectTime(this)">8:00 AM</div>
+            <div class="time-slot" onclick="selectTime(this)">9:00 AM</div>
+            <div class="time-slot selected" onclick="selectTime(this)">10:00 AM</div>
+            <div class="time-slot" onclick="selectTime(this)">11:00 AM</div>
+            <div class="time-slot" onclick="selectTime(this)">1:00 PM</div>
+            <div class="time-slot" onclick="selectTime(this)">2:00 PM</div>
+          </div>
+        </div>
+
+        <!-- Service type -->
+        <div class="booking-section">
+          <div class="booking-section-header">🔧 Choose Service</div>
+          <div class="service-selector">
+            <div class="service-option selected" onclick="selectService(this)">
+              <div class="service-option-left">
+                <span class="service-option-icon">🚿</span>
+                <div>
+                  <div class="service-option-name">Leak Repair</div>
+                  <div class="service-option-desc">Faucet, pipe, or fixture</div>
+                </div>
+              </div>
+              <div class="service-option-price">From $75</div>
+            </div>
+            <div class="service-option" onclick="selectService(this)">
+              <div class="service-option-left">
+                <span class="service-option-icon">🚽</span>
+                <div>
+                  <div class="service-option-name">Toilet Repair/Install</div>
+                  <div class="service-option-desc">Running, clogged, or new</div>
+                </div>
+              </div>
+              <div class="service-option-price">From $120</div>
+            </div>
+            <div class="service-option" onclick="selectService(this)">
+              <div class="service-option-left">
+                <span class="service-option-icon">🔧</span>
+                <div>
+                  <div class="service-option-name">General Plumbing</div>
+                  <div class="service-option-desc">Hourly rate applies</div>
+                </div>
+              </div>
+              <div class="service-option-price">$85/hr</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="booking-section" style="margin-bottom:4px;">
+          <div class="booking-section-header">📝 Notes for Marcus</div>
+          <textarea class="notes-input" rows="3" placeholder="Describe the issue or any special instructions…">Kitchen faucet has been dripping for 2 days. Under the sink access is clear.</textarea>
+        </div>
+
+        <button class="confirm-btn" onclick="goTo('screen-confirm')">
+          ✅ Confirm Booking — Mon May 12 at 10 AM
+        </button>
+      </div>
+
+      <!-- ════════════════════════════════
+           SCREEN 5: CONFIRMATION
+      ════════════════════════════════ -->
+      <div class="screen" id="screen-confirm">
+        <div style="padding:44px 20px 10px;flex-shrink:0;background:#fff;">
+          <!-- empty status bar space -->
+        </div>
+        <div class="confirm-wrap">
+          <div class="confirm-check">✓</div>
+          <div class="confirm-title">You're All Set!</div>
+          <div class="confirm-sub">Your booking with Marcus Rivera has been confirmed. You'll receive a reminder 1 hour before.</div>
+
+          <div class="booking-summary">
+            <div class="summary-row">
+              <span class="summary-label">Provider</span>
+              <span class="summary-value">Marcus Rivera</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Service</span>
+              <span class="summary-value">Leak Repair</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Date &amp; Time</span>
+              <span class="summary-value">Mon, May 12 · 10:00 AM</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Address</span>
+              <span class="summary-value">1248 Elm Street</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Est. Cost</span>
+              <span class="summary-value">From $75</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">Payment</span>
+              <span class="summary-value green">Held · Charged after job</span>
+            </div>
+          </div>
+
+          <button class="done-btn" onclick="goTo('screen-home')">Back to Home</button>
+        </div>
+      </div>
+
+    </div><!-- /phone-inner -->
+  </div><!-- /phone -->
+
+  <div class="nav-hint">Screens: <span>Home → Browse → Provider → Booking → Confirm</span></div>
+
+  <script>
+    function goTo(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('active');
+        el.scrollTop = 0;
+      }
+    }
+
+    function selectDay(el) {
+      document.querySelectorAll('#screen-booking .cal-day').forEach(d => {
+        if (!d.classList.contains('header') && !d.classList.contains('disabled') && !d.classList.contains('today')) {
+          d.classList.remove('selected');
+        }
+      });
+      el.classList.add('selected');
+    }
+
+    function selectTime(el) {
+      document.querySelectorAll('.time-slot').forEach(t => t.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+
+    function selectService(el) {
+      document.querySelectorAll('.service-option').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+  </script>
+</body>
+</html>
